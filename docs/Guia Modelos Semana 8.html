@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Guía · Modelos Semana 8 · Nómina Inteligente</title>
+<style>
+:root {
+  --navy: #0B1F3A;
+  --teal: #1AB6A6;
+  --ice: #EAF1FB;
+  --grey-txt: #3B3F45;
+  --grey-hint: #7C8592;
+  --code-txt: #CFE8E3;
+  --border: #E1E6ED;
+  --bg: #FFFFFF;
+  --card-bg: #F4F7FC;
+  --interp-bg: #FFF7EC;
+  --interp-border: #E8A33D;
+}
+* { box-sizing: border-box; }
+html { scroll-padding-top: 20px; }
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--grey-txt);
+  background: var(--bg);
+  line-height: 1.55;
+}
+header.top { background: var(--navy); padding: env(safe-area-inset-top, 0px) 0 0 0; }
+.header-inner { max-width: 780px; margin: 0 auto; padding: 28px 24px 22px; display: flex; align-items: center; gap: 14px; }
+.header-badge { width: 40px; height: 40px; background: var(--teal); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: var(--navy); font-weight: 800; font-size: 16px; flex-shrink: 0; }
+.header-text h1 { color: #fff; font-size: 20px; margin: 0 0 2px; }
+.header-text p { color: #9FB3D1; font-size: 13px; margin: 0; }
+.topbar { height: 6px; background: linear-gradient(90deg, var(--teal), var(--navy)); }
+.wrap { max-width: 780px; margin: 0 auto; padding: 30px 24px 10px; }
+h1 { color: var(--navy); font-size: 24px; margin: 4px 0 2px; }
+h2 { color: var(--navy); font-size: 19px; margin: 40px 0 12px; padding-top: 16px; border-top: 2px solid var(--teal); display: flex; align-items: baseline; gap: 8px; }
+.step-tag { background: var(--teal); color: var(--navy); font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 20px; white-space: nowrap; }
+.meta { color: var(--grey-hint); font-size: 14px; font-style: italic; margin: 2px 0; }
+p { font-size: 15px; margin: 8px 0; }
+p.celda-label { font-weight: 700; color: var(--navy); margin: 22px 0 4px; font-size: 14.5px; }
+p.interp-title { font-weight: 700; color: #B5711F; margin: 18px 0 4px; font-size: 14.5px; }
+ul { margin: 6px 0; padding-left: 22px; }
+li { font-size: 15px; margin: 4px 0; }
+code.inline { background: var(--ice); color: var(--navy); padding: 1px 6px; border-radius: 4px; font-family: "SF Mono", Consolas, monospace; font-size: 13px; }
+hr { border: none; border-top: 1px solid var(--border); margin: 10px 0; }
+.card { border-radius: 10px; padding: 12px 16px 14px; margin: 10px 0 18px; border-left: 4px solid var(--teal); background: var(--card-bg); }
+.card p { margin: 4px 0 0; font-size: 14.5px; }
+.card-label { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--teal); }
+.card-result { border-left-color: #2E6FB0; background: #EFF4FC; }
+.card-result .card-label { color: #2E6FB0; }
+.interp-box { border-radius: 10px; padding: 6px 16px 10px; margin: 4px 0 18px; border-left: 4px solid var(--interp-border); background: var(--interp-bg); }
+.interp-box ul { margin: 6px 0; padding-left: 20px; }
+.interp-box li { font-size: 14.5px; margin: 6px 0; }
+.code-block { margin: 12px 0 20px; border-radius: 10px; overflow: hidden; border: 1px solid var(--navy); }
+.code-header { display: flex; justify-content: space-between; align-items: center; background: var(--navy); color: #9FB3D1; font-size: 12px; padding: 7px 12px; font-family: "SF Mono", Consolas, monospace; letter-spacing: 0.03em; }
+.copy-btn { background: var(--teal); color: var(--navy); border: none; border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; }
+.copy-btn:active { transform: scale(0.96); }
+.copy-btn.copied { background: #9FE6D8; }
+pre { margin: 0; padding: 14px 16px; background: #0E2647; overflow-x: auto; }
+pre code { color: var(--code-txt); font-family: "SF Mono", Consolas, "Courier New", monospace; font-size: 13px; white-space: pre; }
+footer.bottom { background: var(--navy); margin-top: 50px; padding: 30px 24px calc(28px + env(safe-area-inset-bottom, 0px)); }
+.footer-inner { max-width: 780px; margin: 0 auto; }
+.footer-inner h3 { color: var(--teal); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 10px; }
+.footer-inner ul { list-style: none; padding: 0; margin: 0 0 20px; }
+.footer-inner li { color: #C7D2E3; font-size: 13px; margin: 6px 0; }
+.footer-inner a { color: #9FE6D8; text-decoration: none; }
+.footer-inner a:hover { text-decoration: underline; }
+.footer-bottom-line { border-top: 1px solid #24345A; padding-top: 16px; color: #7186AB; font-size: 12px; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #12151C; --grey-txt: #D7DCE3; --ice: #1B2333; --border: #2A3040; --card-bg: #1B2333; --interp-bg: #2A2013; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="header-inner">
+    <div class="header-badge">NI</div>
+    <div class="header-text">
+      <h1>Nómina Inteligente</h1>
+      <p>CIA6041 · Guía de laboratorio · Semana 8</p>
+    </div>
+  </div>
+</header>
+<div class="topbar"></div>
+<div class="wrap">
+<h1>Guía completa — Cuaderno de Modelos Supervisados y No Supervisados</h1>
+<p class="meta">Caso: Nómina Inteligente | CIA6041 · Semana 8</p>
+<p class="meta">Nombre del archivo: `CIA6041_NominaInteligente_Modelos.ipynb`</p>
+<p class="meta">Ocho pasos, veinte celdas de código, con gráfico de silueta e interpretación después de cada resultado clave </p>
+<p>Seguir los pasos en orden. Es necesario utilizar el archivo <code class="inline">dataset_nomina_limpio.csv</code> (con 35 columnas incluyendo <code class="inline">CandidatoPromocion</code>) subido a la sesión de Colab.</p>
+<hr>
+<h1>Nómina Inteligente · Modelos supervisados y no supervisados</h1>
+<p class="meta">Caso: Advanced Tech Group</p>
+<p>Ocho pasos, dieciocho celdas de código, siguiendo la guía de laboratorio de la clase, aplicados a nuestro dataset (IBM HR Attrition) en vez del ejemplo de NovaRetail.</p>
+<h2><span class="step-tag">Paso 1</span>— Cargar la base y definir qué predecir</h2>
+<p class="celda-label"><strong>Celda 1.1 — Importar librerías:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, ConfusionMatrixDisplay, silhouette_score
+from sklearn.cluster import KMeans</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Además de pandas, numpy y matplotlib (ya conocidas), importa piezas específicas de sklearn (scikit-learn, la librería de machine learning): train_test_split para dividir los datos, DecisionTreeClassifier para el modelo, varias métricas de evaluación (incluyendo silhouette_score, para medir qué tan bien separados quedan los grupos de K-Means), y KMeans para la segmentación.</p></div>
+<p class="celda-label"><strong>Celda 1.2 — Cargar el dataset:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>df = pd.read_csv("dataset_nomina_limpio.csv")
+print("Filas:", df.shape[0], "| Columnas:", df.shape[1])
+df.head()</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Lee el CSV y lo convierte en una tabla (df). df.shape da el tamaño; df.head() muestra las primeras filas para confirmar que cargó bien.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>1470 filas, 35 columnas.</p></div>
+<p class="celda-label"><strong>Celda 1.3 — Definir qué predecir: Attrition (Yes/No):</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>print(df["Attrition"].value_counts())
+print(df["Attrition"].value_counts(normalize=True).round(3))</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>value_counts() cuenta cuántos empleados hay de cada categoría en Attrition (nuestra variable a predecir); con normalize=True da lo mismo en porcentaje.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>No: 1233 (83.9%), Yes: 237 (16.1%).</p></div>
+<h2><span class="step-tag">Paso 2</span>— Elegir qué NO darle al modelo</h2>
+<p><code class="inline">EmployeeNumber</code> es un identificador único por fila — no representa ninguna característica real del empleado.</p>
+<p class="celda-label"><strong>Celda 2.1 — Confirmar que EmployeeNumber es un identificador puro:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>print("Valores únicos de EmployeeNumber:", df["EmployeeNumber"].nunique(), "de", df.shape[0], "filas")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>nunique() cuenta valores distintos. Si el resultado es igual al número de filas, confirma que cada empleado tiene un número propio, sin repetirse.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>"1470 de 1470 filas".</p></div>
+<p class="celda-label"><strong>Celda 2.2 — Armar X (predictoras) y y (objetivo), excluyendo lo que no corresponde:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>columnas_excluidas = ["Attrition", "EmployeeNumber"]
+X = df.drop(columns=columnas_excluidas)
+y = df["Attrition"]
+X = pd.get_dummies(X, drop_first=True)
+print("Columnas usadas como predictoras:", X.shape[1])</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>X (mayúscula) guarda todas las columnas predictoras, sin Attrition ni EmployeeNumber. y (minúscula) guarda solo la columna objetivo. pd.get_dummies(...) convierte texto en columnas numéricas de 0 y 1.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>"49 columnas predictoras" (incluye CandidatoPromocion, la bonus de la Semana 7).</p></div>
+<h2><span class="step-tag">Paso 3</span>— Separar y medir la línea base</h2>
+<p class="celda-label"><strong>Celda 3.1 — Separar entrenamiento y prueba:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42, stratify=y)
+print("Entrenamiento:", X_train.shape[0], "filas | Prueba:", X_test.shape[0], "filas")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Separa los datos en 70% para entrenar y 30% para probar. stratify=y asegura que la proporción de "Yes"/"No" sea igual en ambos grupos.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>"Entrenamiento: 1029 filas | Prueba: 441 filas".</p></div>
+<p class="celda-label"><strong>Celda 3.2 — Calcular la línea base:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>linea_base = (y_test == "No").mean()
+print(f"Línea base (predecir siempre 'No'): {linea_base:.2%} de exactitud")
+print("Cualquier modelo real debe superar esta línea base para ser útil.")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Calcula qué tan seguido acertaría un modelo "perezoso" que siempre dijera "No renuncia" — el punto de comparación mínimo para cualquier modelo real.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>Línea base de 83.90%.</p></div>
+<h2><span class="step-tag">Paso 4</span>— Entrenar el árbol de decisión</h2>
+<p class="celda-label"><strong>Celda 4.1 — Entrenar el modelo:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>modelo = DecisionTreeClassifier(max_depth=5, class_weight="balanced", random_state=42)
+modelo.fit(X_train, y_train)
+print("Modelo entrenado.")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Crea un árbol de decisión con preguntas en cascada. max_depth=5 limita su profundidad. class_weight="balanced" le da más peso a la clase minoritaria ("Yes"). .fit(...) entrena el modelo.</p></div>
+<p class="celda-label"><strong>Celda 4.2 — Predecir y comparar contra la línea base:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>y_pred = modelo.predict(X_test)
+exactitud = accuracy_score(y_test, y_pred)
+print(f"Exactitud (accuracy) del modelo: {exactitud:.2%}")
+print(f"Línea base para comparar:        {linea_base:.2%}")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>.predict(...) genera predicciones sobre datos que el modelo nunca vio. accuracy_score compara esas predicciones contra la realidad.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>Exactitud del modelo: 73.24%, más baja que la línea base — normal, se explica en el Paso 5.</p></div>
+<h2><span class="step-tag">Paso 5</span>— Las métricas que sí dicen la verdad</h2>
+<p>La exactitud sola puede engañar: como solo el 16% de los empleados renuncia, un modelo "tonto" que siempre dijera "No" ya acertaría ~84% de las veces sin predecir nada útil.</p>
+<p class="celda-label"><strong>Celda 5.1 — Precisión, sensibilidad y F1 para la clase "Yes":</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>precision = precision_score(y_test, y_pred, pos_label="Yes")
+sensibilidad = recall_score(y_test, y_pred, pos_label="Yes")
+f1 = f1_score(y_test, y_pred, pos_label="Yes")
+
+print(f"Precisión (Yes):     {precision:.2%}  → de los que el modelo dijo que renunciarían, ¿cuántos de verdad renunciaron?")
+print(f"Sensibilidad (Yes):  {sensibilidad:.2%}  → de los que sí renunciaron, ¿a cuántos detectó el modelo?")
+print(f"F1 (Yes):            {f1:.2%}  → balance entre las dos anteriores")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>pos_label="Yes" enfoca cada métrica en qué tan bien el modelo detecta específicamente la renuncia.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>Precisión ~32%, Sensibilidad ~59%, F1 ~42%.</p></div>
+<p class="celda-label"><strong>Celda 5.2 — Matriz de confusión:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>matriz = confusion_matrix(y_test, y_pred, labels=["No", "Yes"])
+disp = ConfusionMatrixDisplay(confusion_matrix=matriz, display_labels=["No", "Yes"])
+disp.plot(cmap="Blues")
+plt.title("Matriz de confusión — Árbol de decisión")
+plt.savefig("matriz_confusion.png", dpi=120, bbox_inches="tight")
+plt.show()</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>La matriz de confusión muestra, de los 441 empleados de prueba, los aciertos y errores del modelo en cada dirección.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>281 (No→No), 89 (No→Yes), 29 (Yes→No), 42 (Yes→Yes).</p></div>
+<p class="interp-title"><strong>Interpretación de la matriz de confusión</strong></p>
+<div class="interp-box"><ul>
+<li class="interp-li"><strong>Qué muestra:</strong> de los 441 empleados de prueba, el modelo detectó correctamente 42 de las 71 renuncias reales (42+29), pero se le escaparon 29 (falsos negativos) y generó 89 falsas alarmas (empleados que el modelo marcó en riesgo pero que en realidad no renunciaron).</li>
+<li class="interp-li"><strong>Qué decisión cambiaría:</strong> si RR. HH. usara este modelo para decidir a quién ofrecer incentivos de retención, tendría que asumir que casi 4 de cada 10 renuncias reales (29 de 71) no recibirían ninguna alerta preventiva — el equipo tendría que decidir si es aceptable ese nivel de riesgo, o si conviene ajustar el modelo para priorizar detectar más renuncias a costa de más falsas alarmas.</li>
+<li class="interp-li"><strong>Qué limitación tiene:</strong> el modelo no distingue el costo real de cada tipo de error — para el negocio, no detectar una renuncia de un empleado clave probablemente cuesta más que una falsa alarma, pero el árbol actual los trata como igual de graves.</li>
+</ul></div>
+<h2><span class="step-tag">Paso 6</span>— Qué pasa cuando hay fuga de datos</h2>
+<p>Entrenamos el mismo modelo, pero SIN excluir <code class="inline">EmployeeNumber</code>, para ver qué pasa cuando se filtra un identificador al modelo.</p>
+<p class="celda-label"><strong>Celda 6.1 — Armar X con fuga (sin excluir EmployeeNumber):</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>X_con_fuga = df.drop(columns=["Attrition"])
+X_con_fuga = pd.get_dummies(X_con_fuga, drop_first=True)
+X_train_f, X_test_f, y_train_f, y_test_f = train_test_split(X_con_fuga, y, test_size=0.3, random_state=42, stratify=y)
+print("X con fuga:", X_con_fuga.shape[1], "columnas")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Repite el Paso 2, pero esta vez solo excluye Attrition, dejando EmployeeNumber adentro a propósito para comparar.</p></div>
+<p class="celda-label"><strong>Celda 6.2 — Entrenar y comparar:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>modelo_con_fuga = DecisionTreeClassifier(max_depth=5, class_weight="balanced", random_state=42)
+modelo_con_fuga.fit(X_train_f, y_train_f)
+y_pred_f = modelo_con_fuga.predict(X_test_f)
+
+exactitud_fuga = accuracy_score(y_test_f, y_pred_f)
+f1_fuga = f1_score(y_test_f, y_pred_f, pos_label="Yes")
+
+print("=== Comparación ===")
+print(f"Sin EmployeeNumber → Exactitud: {exactitud:.2%} | F1 (Yes): {f1:.2%}")
+print(f"Con EmployeeNumber → Exactitud: {exactitud_fuga:.2%} | F1 (Yes): {f1_fuga:.2%}")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Entrena un segundo modelo idéntico al del Paso 4, pero con EmployeeNumber incluido, y compara sus métricas.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>Exactitud sube ligeramente de 73.24% a 73.92%.</p></div>
+<p class="celda-label"><strong>Celda 6.3 — Ver qué tan "importante" se volvió EmployeeNumber:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>importancias = pd.Series(modelo_con_fuga.feature_importances_, index=X_con_fuga.columns).sort_values(ascending=False)
+posicion = importancias.index.get_loc("EmployeeNumber") + 1
+print(f"Importancia de EmployeeNumber: {importancias['EmployeeNumber']:.4f} (puesto {posicion} de {len(importancias)} variables)")
+print("No es la variable más influyente, pero su sola presencia ya cambia el resultado del modelo —")
+print("un identificador sin significado real no debería influir en nada.")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>feature_importances_ indica cuánto usó el árbol cada variable. Esto muestra en números concretos que un identificador sin significado sí afectó al modelo.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>Importancia ~0.050, puesto 8 de 50 variables.</p></div>
+<p class="interp-title"><strong>Interpretación de la fuga de datos</strong></p>
+<div class="interp-box"><ul>
+<li class="interp-li"><strong>Qué muestra:</strong> incluir <code class="inline">EmployeeNumber</code> cambió la exactitud del modelo (73.24% → 73.92%) y su F1 (41.58% → 41.62%), a pesar de que ese identificador no representa ninguna característica real de ningún empleado.</li>
+<li class="interp-li"><strong>Qué decisión cambiaría:</strong> si el equipo hubiera comparado únicamente las métricas finales sin hacer esta prueba, habría podido elegir por error la versión "con fuga" pensando que es el modelo superior, cuando en realidad esa mejora no se debe a que el modelo entienda mejor a los empleados.</li>
+<li class="interp-li"><strong>Qué limitación tiene:</strong> la fuga de datos es un riesgo silencioso — no genera ningún error visible en el código, solo métricas ligeramente infladas. Sin una prueba específica como esta, es fácil que pase desapercibida en cualquier proyecto de modelado.</li>
+</ul></div>
+<h2><span class="step-tag">Paso 7</span>— Agrupar empleados sin etiqueta (K-Means)</h2>
+<p class="celda-label"><strong>Celda 7.1 — Método del codo: probar varios valores de k:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>variables_cluster = df[["MonthlyIncome", "YearsAtCompany"]]
+
+inercias = []
+rango_k = range(1, 11)
+for k in rango_k:
+    km_prueba = KMeans(n_clusters=k, random_state=42, n_init=10)
+    km_prueba.fit(variables_cluster)
+    inercias.append(km_prueba.inertia_)
+
+fig, ax = plt.subplots(figsize=(7, 5))
+ax.plot(list(rango_k), inercias, marker="o", color="#1E2761")
+ax.set_xlabel("Número de grupos (k)")
+ax.set_ylabel("Inercia (suma de distancias al cuadrado)")
+ax.set_title("Método del codo: buscando el punto donde deja de bajar tan rápido")
+plt.tight_layout()
+plt.savefig("metodo_del_codo.png", dpi=120)
+plt.show()</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Entrena K-Means varias veces (de 1 a 10 grupos) y guarda la "inercia" de cada uno, para decidir con criterio visual dónde ya no vale la pena seguir agregando grupos (el "codo").</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>caída pronunciada hasta k=3, luego se aplana.</p></div>
+<p class="interp-title"><strong>Interpretación del método del codo</strong></p>
+<div class="interp-box"><ul>
+<li class="interp-li"><strong>Qué muestra:</strong> la inercia baja de forma muy pronunciada de k=1 a k=3, y después se aplana — indicando que agregar un cuarto o quinto grupo ya no reduce la dispersión de forma significativa.</li>
+<li class="interp-li"><strong>Qué decisión cambiaría:</strong> si el equipo hubiera elegido k=2, se perdería la distinción entre perfil "medio" y "senior"; si hubiera elegido k=6 o más, los segmentos serían más difíciles de interpretar y comunicar a RR. HH. como perfiles accionables.</li>
+<li class="interp-li"><strong>Qué limitación tiene:</strong> el codo no señala un único punto matemáticamente correcto — la elección de k=3 combina la lectura del gráfico con el criterio de que 3 perfiles (junior/medio/senior) son fáciles de comunicar y usar en la práctica.</li>
+</ul></div>
+<p class="celda-label"><strong>Celda 7.2 — Entrenar K-Means con el k elegido (justificado por el codo):</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
+df["Segmento"] = kmeans.fit_predict(variables_cluster)
+print(df["Segmento"].value_counts().sort_index())
+
+silueta = silhouette_score(variables_cluster, df["Segmento"])
+print(f"\nÍndice de silueta: {silueta:.3f} (rango -1 a 1; más cerca de 1 = grupos mejor separados)")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>K-Means agrupa empleados sin usar ninguna etiqueta, solo mirando qué tan parecidos son entre sí. n_init=10 prueba 10 puntos de partida y se queda con el mejor. silhouette_score da el promedio general de qué tan bien separados quedaron los grupos (-1 a 1, más cerca de 1 es mejor).</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>3 grupos (916/189/365 empleados); silueta promedio ≈ 0.623.</p></div>
+<p class="celda-label"><strong>Celda 7.3 — Graficar la silueta por segmento:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>from sklearn.metrics import silhouette_samples
+
+valores_silueta = silhouette_samples(variables_cluster, df["Segmento"])
+
+fig, ax = plt.subplots(figsize=(8, 6))
+y_inferior = 10
+colores = ["#CADCFC", "#02C39A", "#1E2761"]
+for i in range(3):
+    valores_i = valores_silueta[df["Segmento"] == i]
+    valores_i.sort()
+    tamano_i = valores_i.shape[0]
+    y_superior = y_inferior + tamano_i
+    ax.fill_betweenx(np.arange(y_inferior, y_superior), 0, valores_i, facecolor=colores[i], alpha=0.8)
+    ax.text(-0.05, y_inferior + 0.5 * tamano_i, f"Segmento {i}")
+    y_inferior = y_superior + 10
+
+ax.axvline(x=silueta, color="red", linestyle="--", label=f"Promedio general: {silueta:.3f}")
+ax.set_xlabel("Coeficiente de silueta")
+ax.set_ylabel("Empleados agrupados por segmento")
+ax.set_title("Análisis de silueta: qué tan bien encaja cada empleado en su segmento")
+ax.set_yticks([])
+ax.legend()
+plt.tight_layout()
+plt.savefig("silueta.png", dpi=120)
+plt.show()</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>silhouette_samples calcula el coeficiente de silueta INDIVIDUAL de cada empleado (no solo el promedio). El gráfico dibuja esos valores como barras horizontales, agrupadas y ordenadas por segmento, con una línea roja marcando el promedio general — así se ve no solo el número general, sino si hay empleados mal encajados dentro de su grupo.</p></div>
+<div class="card card-result"><div class="card-label">Resultado esperado:</div><p>ningún empleado con coeficiente negativo (mínimo real: 0.005); 73 empleados (5%) con coeficiente por debajo de 0.2, cerca de la frontera entre segmentos.</p></div>
+<p class="celda-label"><strong>Celda 7.4 — Graficar los 3 segmentos:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>fig, ax = plt.subplots(figsize=(8, 5))
+colores = ["#CADCFC", "#02C39A", "#1E2761"]
+for seg in sorted(df["Segmento"].unique()):
+    grupo = df[df["Segmento"] == seg]
+    ax.scatter(grupo["YearsAtCompany"], grupo["MonthlyIncome"], label=f"Segmento {seg}", alpha=0.5, s=15, color=colores[seg])
+ax.set_xlabel("Años en la empresa")
+ax.set_ylabel("Ingreso mensual (USD)")
+ax.set_title("Tres perfiles de empleados, agrupados sin usar ninguna etiqueta")
+ax.legend()
+plt.tight_layout()
+plt.savefig("grafico_segmentos.png", dpi=120)
+plt.show()</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Dibuja los 1,470 empleados como puntos, coloreados según su segmento.</p></div>
+<p class="interp-title"><strong>Interpretación de los segmentos y la silueta</strong></p>
+<div class="interp-box"><ul>
+<li class="interp-li"><strong>Qué muestra:</strong> el gráfico de silueta (Celda 7.3) confirma que ningún empleado tiene coeficiente negativo (mínimo real: 0.005) — es decir, no hay casos claramente mal clasificados. Sin embargo, 73 empleados (5% del total) tienen un coeficiente por debajo de 0.2, lo que indica que están cerca de la frontera entre dos segmentos, aunque técnicamente pertenezcan a uno. El gráfico de dispersión (esta celda) muestra esos mismos 3 grupos en el espacio de salario y antigüedad.</li>
+<li class="interp-li"><strong>Qué decisión cambiaría:</strong> con un promedio de 0.623 y sin valores negativos, sí se justifica diseñar políticas de RR. HH. distintas por segmento; aun así, conviene tratar con más flexibilidad a ese 5% de empleados "frontera" en vez de aplicarles una política rígida basada solo en su segmento asignado.</li>
+<li class="interp-li"><strong>Qué limitación tiene:</strong> los segmentos se calcularon usando solo 2 variables (salario y antigüedad); no consideran satisfacción laboral, desempeño ni otras variables que podrían producir una segmentación más rica o distinta.</li>
+</ul></div>
+<h2><span class="step-tag">Paso 8</span>— Leer los grupos y exportar</h2>
+<p class="celda-label"><strong>Celda 8.1 — Interpretar los segmentos:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>resumen_segmentos = df.groupby("Segmento")[["MonthlyIncome", "YearsAtCompany"]].mean().round(1)
+resumen_segmentos["Empleados"] = df["Segmento"].value_counts().sort_index()
+print(resumen_segmentos)</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Calcula el salario y la antigüedad promedio de cada segmento, para poder interpretarlos.</p></div>
+<p class="interp-title"><strong>Interpretación de la tabla de segmentos</strong></p>
+<div class="interp-box"><ul>
+<li class="interp-li"><strong>Qué muestra:</strong> el Segmento 0 (916 empleados) tiene salario y antigüedad más bajos (perfil junior); el Segmento 2 (365 empleados) es intermedio; el Segmento 1 (189 empleados) tiene el salario y antigüedad más altos (perfil senior).</li>
+<li class="interp-li"><strong>Qué decisión cambiaría:</strong> RR. HH. podría asignar presupuesto de retención de forma diferenciada — por ejemplo, priorizar estrategias distintas para el segmento junior (916 empleados, más numeroso pero de menor costo individual) frente al senior (189 empleados, menos numeroso pero de mayor costo de reemplazo).</li>
+<li class="interp-li"><strong>Qué limitación tiene:</strong> esta es una interpretación hecha por el equipo a partir de los promedios de cada grupo, no una etiqueta que el algoritmo haya generado ni validado — otro equipo podría nombrar o interpretar estos mismos 3 grupos de forma distinta.</li>
+</ul></div>
+<p class="celda-label"><strong>Celda 8.2 — Exportar el resultado final:</strong></p>
+
+<div class="code-block">
+  <div class="code-header">
+    <span>Celda de código</span>
+    <button class="copy-btn" onclick="copiarCodigo(this)">Copiar</button>
+  </div>
+  <pre><code>df.to_csv("dataset_nomina_segmentos.csv", index=False)
+print("Exportado: dataset_nomina_segmentos.csv")</code></pre>
+</div>
+
+<div class="card card-what"><div class="card-label">Qué hace</div><p>Guarda el dataset completo, ahora con la columna Segmento incluida.</p></div>
+<h2>Por qué ninguno de los dos modelos está listo para producción</h2>
+<p><strong>Árbol de decisión:</strong> entrenado con solo 1,470 filas y <code class="inline">max_depth=5</code> fijo, sin comparar contra otros algoritmos ni ajustar hiperparámetros. La sensibilidad para detectar renuncias reales todavía deja casos sin identificar — antes de usarlo para decisiones de negocio, haría falta comparar varios modelos y ajustar el umbral de decisión según el costo real de cada tipo de error.</p>
+<p><strong>K-Means:</strong> el método del codo (Paso 7) da una justificación visual para elegir <code class="inline">k=3</code>, pero sigue siendo una lectura del gráfico hecha por el equipo, no un criterio matemático único e indiscutible (distintos análisis podrían leer el "codo" en un punto ligeramente distinto). Los grupos tampoco se validaron contra ningún criterio externo de negocio más allá de la inspección visual.</p>
+<p><strong>La demostración de fuga de datos (Paso 6)</strong> confirma por qué excluir <code class="inline">EmployeeNumber</code> no es opcional: incluirlo cambia las métricas del modelo sin que eso represente ninguna mejora real en su capacidad de generalizar a empleados nuevos.</p>
+<hr>
+<h2>Errores comunes</h2>
+<ul>
+<li><strong><code class="inline">ValueError</code> al hacer <code class="inline">get_dummies</code>:</strong> confirmen que <code class="inline">Attrition</code> y <code class="inline">EmployeeNumber</code> sí se excluyeron de <code class="inline">X</code> antes de usar <code class="inline">pd.get_dummies(...)</code>.</li>
+<li><strong>Las métricas del Paso 5 dan <code class="inline">KeyError</code> o error con <code class="inline">pos_label</code>:</strong> revisen que <code class="inline">Attrition</code> tenga exactamente los valores <code class="inline">"Yes"</code> y <code class="inline">"No"</code>.</li>
+<li><strong><code class="inline">ImportError</code> con <code class="inline">silhouette_score</code> o <code class="inline">silhouette_samples</code>:</strong> confirmen que la Celda 1.1 incluye <code class="inline">silhouette_score</code> en el import de <code class="inline">sklearn.metrics</code>, y que la Celda 7.3 importa <code class="inline">silhouette_samples</code> por separado.</li>
+<li><strong>Los números de K-Means no coinciden exactamente:</strong> usen <code class="inline">random_state=42, n_init=10</code> para que coincidan con esta guía.</li>
+<li><strong>La columna 2.2 no da 49 sino 48:</strong> revisen que su <code class="inline">dataset_nomina_limpio.csv</code> tenga la columna <code class="inline">CandidatoPromocion</code> (35 columnas en total).</li>
+</ul>
+
+</div>
+<footer class="bottom">
+  <div class="footer-inner">
+    <h3>Fuentes</h3>
+    <ul>
+      <li>Guía original del laboratorio (profesor Jhony Guzmán Henao): <a href="https://jhonyguzman72415.github.io/CIA6041_Clase_8/" target="_blank">jhonyguzman72415.github.io/CIA6041_Clase_8</a></li>
+      <li>Dataset: IBM HR Analytics Employee Attrition &amp; Performance — <a href="https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset" target="_blank">Kaggle</a>, licencia DbCL v1.0</li>
+      <li>Documentación de scikit-learn: <a href="https://scikit-learn.org/stable/" target="_blank">scikit-learn.org</a></li>
+      <li>Notebook del equipo: <code class="inline" style="background:#1B2A4A;color:#9FE6D8;">CIA6041_NominaInteligente_Modelos.ipynb</code></li>
+    </ul>
+    <div class="footer-bottom-line">
+      CIA6041 · Inteligencia Artificial y Gestión de Datos Organizacionales · — Roberto Armuelles, Libia Ortiz, Jesús Jaquez y Sergio Rivera.
+    </div>
+  </div>
+</footer>
+<script>
+function copiarCodigo(btn) {
+  const codeEl = btn.closest(".code-block").querySelector("code");
+  navigator.clipboard.writeText(codeEl.textContent).then(() => {
+    const original = btn.textContent;
+    btn.textContent = "¡Copiado!";
+    btn.classList.add("copied");
+    setTimeout(() => { btn.textContent = original; btn.classList.remove("copied"); }, 1500);
+  });
+}
+</script>
+</body>
+</html>
